@@ -1,5 +1,5 @@
-// 🧠 Central API module
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { ERROR_MESSAGES } from '@/config/constants';
 
 const BASE = "/api/auth";
 
@@ -30,19 +30,16 @@ export async function refreshToken() {
 
 // ========== SYSTEM PANEL API ==========
 
-// Formerly getAtlasSnapshot → MycoCore
 export async function getMycoCoreSnapshot() {
-  const res = await axios.get("/api/system/mycocore", config); // 🔄 Adjusted endpoint
+  const res = await axios.get("/api/system/mycocore", config);
   return res.data;
 }
 
-// Formerly Cortexa
 export async function fetchNeuroweaveData() {
   const res = await axios.get("/api/neuroweave", config);
   return res.data;
 }
 
-// Formerly Daphne
 export async function fetchRootBloomData(type: string, token: string) {
   const res = await axios.get(`/api/${type}`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -51,9 +48,9 @@ export async function fetchRootBloomData(type: string, token: string) {
   return res.data;
 }
 
-// ========== ADMIN OPS ==========
+// ========== ERROR HANDLING ==========
 
-export async function verifyAdmin(code: string) {
-  const res = await axios.post(`${BASE}/admin_auth`, { code }, config);
-  return res.data;
+export function handleApiError(error: unknown) {
+  const axiosError = error as AxiosError<{ error: string }>;
+  return axiosError.response?.data?.error || axiosError.message || ERROR_MESSAGES.NETWORK_ERROR;
 }

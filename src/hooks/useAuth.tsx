@@ -1,11 +1,6 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from "react";
 import { login as apiLogin, logout as apiLogout, refreshToken, getProfile } from "../services/auth";
-
-type User = {
-  email: string;
-  pinVerified: boolean;
-  role: "owner" | "admin" | "guest";
-};
+import type { User } from '@/types';
 
 type AuthContextType = {
   user: User | null;
