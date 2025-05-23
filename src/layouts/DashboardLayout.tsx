@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Navigation from '@/components/dashboard/Navigation';
 import ParticleBackground from '@/components/ui/ParticleBackground';
 import { motion } from 'framer-motion';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useAuth } from '@/hooks/useAuth';
+import type { User } from '@/types';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,9 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const { user, logout } = useAuth();
+
+  // Cast user to match Navigation component's User type
+  const navigationUser = user as User | null;
 
   return (
     <motion.div 
@@ -26,7 +30,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <Navigation 
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          user={user}
+          user={navigationUser}
           onLogout={logout}
         />
         <main className="flex-1 p-8">
