@@ -10,7 +10,7 @@ interface SystemEvent {
   timestamp: Date;
 }
 
-const AtlasConsole: React.FC = () => {
+const MycoCore: React.FC = () => {
   const [events, setEvents] = useState<SystemEvent[]>([]);
   const [isMinimized, setIsMinimized] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -92,7 +92,7 @@ const AtlasConsole: React.FC = () => {
       >
         <div className="flex items-center">
           <Terminal className="w-5 h-5 text-hyphae-400 mr-2" />
-          <span className="text-white font-medium">Atlas Console</span>
+          <span className="text-white font-medium">MycoCore Console</span>
         </div>
         <div className="flex space-x-1">
           <div className="w-2 h-2 rounded-full bg-fungal-500" />
@@ -137,4 +137,4 @@ const AtlasConsole: React.FC = () => {
   );
 };
 
-export default AtlasConsole;
+export default MycoCore;
