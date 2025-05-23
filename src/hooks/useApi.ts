@@ -22,8 +22,8 @@ export function useApi<T>(endpoint: string, options: UseApiOptions = {}) {
       setData(response.data.data);
       options.onSuccess?.(response.data.data);
     } catch (err) {
-      const error = err as AxiosError;
-      const message = error.response?.data?.error || ERROR_MESSAGES.NETWORK_ERROR;
+      const error = err as AxiosError<{ error: string }>;
+      const message = error.response?.data?.error || error.message || ERROR_MESSAGES.NETWORK_ERROR;
       setError(message);
       options.onError?.(message);
     } finally {

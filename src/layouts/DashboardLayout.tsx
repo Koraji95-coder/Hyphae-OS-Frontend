@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from '@/components/dashboard/Navigation';
 import ParticleBackground from '@/components/ui/ParticleBackground';
 import { motion } from 'framer-motion';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { useAuth } from '@/hooks/useAuth';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const { user, logout } = useAuth();
+
   return (
     <motion.div 
       className="min-h-screen bg-dark-300"
@@ -18,7 +23,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <ParticleBackground variant="minimal" />
       
       <div className="flex">
-        <Navigation />
+        <Navigation 
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          user={user}
+          onLogout={logout}
+        />
         <main className="flex-1 p-8">
           <ErrorBoundary>
             {children}
@@ -28,3 +38,5 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     </motion.div>
   );
 };
+
+export default DashboardLayout;
